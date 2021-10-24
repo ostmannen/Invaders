@@ -23,9 +23,6 @@ namespace Invaders
         {
             base.Update(deltaTime, scene);
             Position += deltaTime * speed * new Vector2f(0,-1);
-            if (Position.Y <= -20){
-                dead = true;
-            }
         }
     }
 }
