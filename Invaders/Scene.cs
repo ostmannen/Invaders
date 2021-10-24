@@ -14,11 +14,15 @@ namespace Invaders
         private Spawner Spawner ;
         private Gui gui;
         public Scene(){
-            assets = new AssetManager();
-            entities = new List<Entity>();
             events = new EventManager();
+            assets = new AssetManager();
+            Restart();
+        }
+        public void Restart(){
+            entities = new List<Entity>();
             Spawner = new Spawner();   
-            gui = new Gui(assets, this);         
+            gui = new Gui(assets, this);  
+            spawn(new Player(){Position = new Vector2f(18,18)}); 
         }
         public void spawn(Entity entity){
             entities.Add(entity);
@@ -51,7 +55,6 @@ namespace Invaders
             }
         }
         
-
         public IEnumerable<Entity> FindIntersects(FloatRect bounds)
         {
             int lastEntity = entities.Count - 1;

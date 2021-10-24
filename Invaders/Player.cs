@@ -13,16 +13,16 @@ namespace Invaders
         public const float width = 59.0f;
         public const float length = 42.0f;
         private float shotTimer = 0.5f;
+        private float immortalTimer = 0;
         private Vector2f size;
         public float Hp = 3;
-        public Player() : base("Untitled"){}
+        public Player() : base("Untitled") { }
         public override void Create(Scene scene)
         {
             base.Create(scene);
             sprite.TextureRect = new IntRect(0, 0, 209, 148);
             Position = new Vector2f(190, 350);
             Vector2f playerTextureSize = (Vector2f)sprite.Texture.Size;
-            
             sprite.Scale = new Vector2f(
                 width / playerTextureSize.X,
                 length / playerTextureSize.Y);
@@ -35,26 +35,35 @@ namespace Invaders
         public override void Update(float deltaTime, Scene scene)
         {
             base.Update(deltaTime, scene);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
+            if (immortalTimer > 0)
+            {
+                immortalTimer -= deltaTime;
+                if (immortalTimer < 0)
+                {
+                    immortalTimer = 0;
+                }
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Right) && Position.X <= Program.ScreenW - 40)
             {
                 Position += new Vector2f(1, 0) * deltaTime * speed;
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Left) && Position.X >= 0 + 18)
             {
                 Position += new Vector2f(-1, 0) * deltaTime * speed;
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Up) && Position.Y >= 0)
             {
                 Position += new Vector2f(0, -1) * deltaTime * speed;
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Down) && Position.Y <= Program.ScreenH - 40)
             {
                 Position += new Vector2f(0, 1) * deltaTime * speed;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
-                if (shotTimer <= 0){
-                    scene.spawn(new PlayerBullet() { Position = new Vector2f(Position.X + width / 2 -3, Position.Y + -10)});
+                if (shotTimer <= 0)
+                {
+                    scene.spawn(new PlayerBullet() { Position = new Vector2f(Position.X + width / 2 - 3, Position.Y + -10) });
                     shotTimer = 0.5f;
                 }
             }
@@ -62,15 +71,20 @@ namespace Invaders
         }
         protected override void CollideWith(Scene scene, Entity entity)
         {
-            if (entity is Invader || entity is InvaderBullet){
+            if (entity is Invader && immortalTimer == 0 || entity is InvaderBullet && immortalTimer == 0)
+            {
                 scene.events.PublishShot(1);
                 entity.dead = true;
             }
         }
-        public void OnLoseHealth(Scene scene, int amount){
+        public void OnLoseHealth(Scene scene, int amount)
+        {
             Hp--;
-            if (Hp == 0){
+            immortalTimer = 1;
+            if (Hp == 0)
+            {
                 dead = true;
+                scene.Restart();
             }
         }
     }

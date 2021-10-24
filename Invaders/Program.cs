@@ -21,8 +21,6 @@ namespace Invaders
                 Clock clock = new Clock();
                 Scene scene = new Scene();
                 
-                
-                scene.spawn(new Player(){Position = new Vector2f(18,18)});
                 window.SetView(new View(new FloatRect(18, 0, 414, 450)));
                 
                 while (window.IsOpen)

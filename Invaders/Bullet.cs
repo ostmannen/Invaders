@@ -19,16 +19,16 @@ namespace Invaders
         public override void Update(float deltaTime, Scene scene)
         {
             base.Update(deltaTime, scene);
-            if (Position.X > Program.ScreenW - 10){
+            if (Position.X > Program.ScreenW + 30){
                 dead = true;
             }
-            if (Position.X < 10){
+            if (Position.X < -30){
                 dead = true;
             }
-            if (Position.Y > Program.ScreenH - 10){
+            if (Position.Y > Program.ScreenH + 30){
                 dead = true;
             }
-            if (Position.Y < 10){
+            if (Position.Y < -30){
                 dead = true;
             }
         }

@@ -17,10 +17,7 @@ namespace Invaders
         private Vector2f size;
         public Vector2f direction = new Vector2f(1, 0.2f) / MathF.Sqrt(2.0f);
         private float shotTimer = 0;
-        public Invader() : base("preview - Copy")
-        {
-
-        }
+        public Invader() : base("preview - Copy"){}
         public override void Create(Scene scene)
         {
             base.Create(scene);
@@ -54,12 +51,22 @@ namespace Invaders
             }
             if (shotTimer >= 1)
             {
-                scene.spawn(new InvaderBullet(direction)
-                {Position = new Vector2f(Position.X + direction.X  + (50 * direction.X), Position.Y + (30 * direction.Y)), Rotation = Rotation});
+                if (Rotation == 100)
+                {
+
+                    scene.spawn(new InvaderBullet(direction)
+                    { Position = new Vector2f(Position.X + direction.X + (50 * direction.X), Position.Y + (30 * direction.Y)), Rotation = Rotation });
+                }
+                else
+                {
+                    scene.spawn(new InvaderBullet(direction)
+                    { Position = new Vector2f(Position.X + direction.X + (50 * direction.X), Position.Y + (70 * direction.Y)), Rotation = Rotation });
+                }
                 shotTimer = 0;
             }
             shotTimer += deltaTime;
-            if (Position.Y >= Program.ScreenH + 40){
+            if (Position.Y >= Program.ScreenH + 40)
+            {
                 dead = true;
             }
         }
@@ -77,10 +84,11 @@ namespace Invaders
         }
         protected override void CollideWith(Scene scene, Entity entity)
         {
-            if (entity is PlayerBullet){
+            if (entity is PlayerBullet)
+            {
                 dead = true;
                 entity.dead = true;
-            }  
+            }
         }
     }
 }
