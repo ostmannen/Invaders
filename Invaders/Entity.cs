@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Invaders
 {
-    public class Entity
+    public abstract class Entity
     {
         private string textureName;
 
