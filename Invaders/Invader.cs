@@ -54,12 +54,12 @@ namespace Invaders
                 if (Rotation == 100)
                 {
 
-                    scene.spawn(new InvaderBullet(direction)
+                    scene.spawn(new Bullet(this, direction, new IntRect(0,25,5,22))
                     { Position = new Vector2f(Position.X + direction.X + (50 * direction.X), Position.Y + (30 * direction.Y)), Rotation = Rotation });
                 }
                 else
                 {
-                    scene.spawn(new InvaderBullet(direction)
+                    scene.spawn(new Bullet(this, direction, new IntRect(0,25,5,22))
                     { Position = new Vector2f(Position.X + direction.X + (50 * direction.X), Position.Y + (70 * direction.Y)), Rotation = Rotation });
                 }
                 shotTimer = 0;
@@ -84,11 +84,6 @@ namespace Invaders
         }
         protected override void CollideWith(Scene scene, Entity entity)
         {
-            if (entity is PlayerBullet)
-            {
-                dead = true;
-                entity.dead = true;
-            }
         }
     }
 }

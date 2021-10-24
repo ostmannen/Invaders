@@ -1,4 +1,4 @@
-using System.Runtime.Intrinsics;
+/*using System.Runtime.Intrinsics;
 using System.Numerics;
 using System;
 using SFML.Graphics;
@@ -25,4 +25,4 @@ namespace Invaders
             Position += deltaTime * speed * new Vector2f(0,-1);
         }
     }
-}
+}*/

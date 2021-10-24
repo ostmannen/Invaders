@@ -1,4 +1,4 @@
-using System.Runtime.Intrinsics;
+/*using System.Runtime.Intrinsics;
 using System.Numerics;
 using System;
 using SFML.Graphics;
@@ -33,3 +33,4 @@ namespace Invaders
         }
     }
 }
+*/

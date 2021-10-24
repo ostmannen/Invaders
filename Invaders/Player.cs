@@ -41,6 +41,7 @@ namespace Invaders
                 if (immortalTimer < 0)
                 {
                     immortalTimer = 0;
+                    scene.events.LoseHealth += OnLoseHealth;
                 }
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right) && Position.X <= Program.ScreenW - 40)
@@ -63,7 +64,7 @@ namespace Invaders
             {
                 if (shotTimer <= 0)
                 {
-                    scene.spawn(new PlayerBullet() { Position = new Vector2f(Position.X + width / 2 - 3, Position.Y + -10) });
+                    scene.spawn(new Bullet(this, new Vector2f(0,-1), new IntRect(0,0,5,18)) {Position = new Vector2f(Position.X + width / 2 - 3, Position.Y + -10) });
                     shotTimer = 0.5f;
                 }
             }
@@ -71,21 +72,23 @@ namespace Invaders
         }
         protected override void CollideWith(Scene scene, Entity entity)
         {
-            if (entity is Invader && immortalTimer == 0 || entity is InvaderBullet && immortalTimer == 0)
-            {
-                scene.events.PublishShot(1);
-                entity.dead = true;
-            }
+            
         }
         public void OnLoseHealth(Scene scene, int amount)
         {
             Hp--;
-            immortalTimer = 1;
             if (Hp == 0)
             {
                 dead = true;
                 scene.Restart();
             }
+            immortalTimer = 1;
+            scene.events.LoseHealth -= OnLoseHealth;
+        }
+         public float Rotation
+        {
+            get => sprite.Rotation;
+            set => sprite.Rotation = value;
         }
     }
 }
